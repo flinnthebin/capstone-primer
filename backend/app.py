@@ -110,7 +110,7 @@ def get_stats():
             marks.append(mark)
 
     if not mark:
-        jsonify({"count": len(marks),"average": round(sum(marks) / len(marks), 2), "min": min(marks), "max": max(marks),}), 200
+        jsonify({"count": 0,"average": 0, "min": 0, "max": 0}), 200
     return jsonify({
             "count": len(marks),
            "average": round(sum(marks) / len(marks), 2),
