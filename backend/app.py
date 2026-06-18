@@ -35,6 +35,18 @@ def create_student():
     course = data.get("course")
     mark = data.get("mark")
 
+    if not name:
+        return jsonify({"error": "a girl has no name"}), 404
+    if not course:
+        return jsonify({"error": "a girl has no course"}), 404
+    if mark is not None:
+        try:
+            mark = int(mark)
+        except (ValueError, TypeError):
+            return jsonify({"error": "a girl has no marks"}), 404
+        if not 0 <= mark <= 100:
+            return jsonify({"error": "a girl has no marks"}), 404
+
     student = db.insert_student(name, course, mark)
     return jsonify(student), 200
 
@@ -55,6 +67,18 @@ def update_student(student_id):
     name = data.get("name")
     course = data.get("course")
     mark = data.get("mark")
+
+    if not name:
+        return jsonify({"error": "a girl has no name"}), 404
+    if not course:
+        return jsonify({"error": "a girl has no course"}), 404
+    if mark is not None:
+        try:
+            mark = int(mark)
+        except (ValueError, TypeError):
+            return jsonify({"error": "a girl has no marks"}), 404
+        if not 0 <= mark <= 100:
+            return jsonify({"error": "a girl has no marks"}), 404
 
     student_data = db.update_student(student_id, name, course, mark)
     return jsonify(student_data), 200
