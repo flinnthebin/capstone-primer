@@ -109,6 +109,8 @@ def get_stats():
         if type(mark) is int:
             marks.append(mark)
 
+    if not mark:
+        jsonify({"count": len(marks),"average": round(sum(marks) / len(marks), 2), "min": min(marks), "max": max(marks),}), 200
     return jsonify({
             "count": len(marks),
            "average": round(sum(marks) / len(marks), 2),
