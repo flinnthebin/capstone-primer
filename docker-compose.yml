@@ -1,20 +1,35 @@
 services:
   db:
-    image: postgres:15
+    build:
+      context: db/
+      dockerfile: Dockerfile
     environment:
       POSTGRES_USER: marksuser
       POSTGRES_PASSWORD: markspass
       POSTGRES_DB: marksdb
-    # Pre-seed script is required as a volume to load mock database
-    # Data inside the container is lost on restart unless you persist it with a volume.
     ports:
       - "5432:5432"
+    volumes:
+      - data_sql:/var/lib/postgresql
 
   backend:
-    # TODO: you will need to add to this
-
+    build: ./backend
+    environment:
+      DB_HOST: db
+      DB_NAME: marksdb
+      DB_USER: marksuser
+      DB_PASSWORD: markspass
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
   frontend:
-    # TODO: you will need to add to this
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
 
   automark:
     build: ./automark
@@ -23,3 +38,5 @@ services:
       - db
     profiles:
       - debug
+volumes:
+  data_sql:
